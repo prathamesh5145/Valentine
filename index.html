@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Shikhaa… will you be my Valentine?</title>
 
-  <!-- Fonts: elegant + modern -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 
   <!-- Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
@@ -17,207 +15,89 @@
 </head>
 
 <body>
-  <!-- full-screen fx canvas -->
+  <!-- FX Canvas -->
   <canvas id="fxCanvas" aria-hidden="true"></canvas>
 
   <main class="stage">
-    <section class="card" role="application" aria-label="Valentine card">
+    <section class="card">
 
-      <!-- top ribbon -->
-      <div class="topline">
-        <div class="stamp">
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-        </div>
-        <div class="note">handmade • just for you</div>
-      </div>
-
-      <!-- HERO: illustration frame -->
       <div class="hero">
-        <div class="frame" aria-hidden="true">
+        <div class="frame">
           <div class="frameInner">
-            <!-- Cute frog illustration (original SVG) -->
-            <svg class="frog" viewBox="0 0 520 320" xmlns="http://www.w3.org/2000/svg">
+            <!-- Anime Frog -->
+            <svg class="frog animeFrog" viewBox="0 0 520 320">
               <defs>
-                <!-- watercolor-ish gradients -->
                 <radialGradient id="bgWash" cx="35%" cy="25%" r="80%">
-                  <stop offset="0%" stop-color="#ffffff" stop-opacity=".9"/>
-                  <stop offset="50%" stop-color="#f3ffe9" stop-opacity=".9"/>
-                  <stop offset="100%" stop-color="#e7f7ee" stop-opacity=".95"/>
+                  <stop offset="0%" stop-color="#ffffff"/>
+                  <stop offset="50%" stop-color="#f3ffe9"/>
+                  <stop offset="100%" stop-color="#e7f7ee"/>
                 </radialGradient>
-
                 <linearGradient id="frogBody" x1="0" x2="1">
                   <stop offset="0%" stop-color="#A8E6B3"/>
                   <stop offset="50%" stop-color="#7BD68E"/>
                   <stop offset="100%" stop-color="#58C77A"/>
                 </linearGradient>
-
-                <linearGradient id="frogBelly" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stop-color="#FFF4D6" stop-opacity=".95"/>
-                  <stop offset="100%" stop-color="#F7E7B3" stop-opacity=".9"/>
-                </linearGradient>
-
                 <linearGradient id="heartPaint" x1="0" x2="1">
                   <stop offset="0%" stop-color="#ff4f8b"/>
                   <stop offset="100%" stop-color="#ff1466"/>
                 </linearGradient>
-
-                <!-- subtle grain filter -->
-                <filter id="grain" x="-20%" y="-20%" width="140%" height="140%">
-                  <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch" />
-                  <feColorMatrix type="matrix"
-                    values="1 0 0 0 0
-                            0 1 0 0 0
-                            0 0 1 0 0
-                            0 0 0 .08 0"/>
-                </filter>
-
-                <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
-                  <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#102018" flood-opacity=".22"/>
-                </filter>
               </defs>
 
-              <!-- background wash -->
-              <rect x="0" y="0" width="520" height="320" rx="26" fill="url(#bgWash)"/>
-              <rect x="0" y="0" width="520" height="320" rx="26" filter="url(#grain)" opacity=".55"/>
+              <rect width="520" height="320" rx="26" fill="url(#bgWash)"/>
 
-              <!-- doodle lines -->
-              <path d="M40 64 C120 20, 240 40, 300 20 C360 0, 420 26, 480 10"
-                    fill="none" stroke="#2f5d3d" stroke-opacity=".18" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 10"/>
-              <path d="M70 260 C140 290, 220 270, 310 295 C390 318, 450 300, 490 312"
-                    fill="none" stroke="#b83366" stroke-opacity=".14" stroke-width="3" stroke-linecap="round" stroke-dasharray="3 12"/>
+              <!-- Heart -->
+              <path d="M402 76 C402 54 428 44 444 60 C460 44 486 54 486 76 C486 108 444 122 444 144 C444 122 402 108 402 76Z"
+                fill="url(#heartPaint)" class="animePulse"/>
 
-              <!-- heart behind frog -->
-              <path d="M402 76
-                       C402 54 428 44 444 60
-                       C460 44 486 54 486 76
-                       C486 108 444 122 444 144
-                       C444 122 402 108 402 76Z"
-                    fill="url(#heartPaint)" opacity=".95" filter="url(#softShadow)"/>
+              <!-- Frog Body -->
+              <g>
+                <ellipse cx="250" cy="248" rx="150" ry="34" fill="#0d1b12" opacity=".12"/>
+                <path d="M120 190 C120 120, 170 84, 250 94 C330 84, 380 120, 380 190 C380 250, 330 274, 250 274 C170 274, 120 250, 120 190Z"
+                      fill="url(#frogBody)" class="animeBob"/>
 
-              <!-- frog shadow -->
-              <ellipse cx="250" cy="248" rx="150" ry="34" fill="#0d1b12" opacity=".12"/>
-
-              <!-- frog body -->
-              <g filter="url(#softShadow)">
-                <path d="M120 190
-                         C120 120, 170 84, 250 94
-                         C330 84, 380 120, 380 190
-                         C380 250, 330 274, 250 274
-                         C170 274, 120 250, 120 190Z"
-                      fill="url(#frogBody)"/>
-
-                <!-- belly -->
-                <path d="M170 200
-                         C170 150, 205 132, 250 138
-                         C295 132, 330 150, 330 200
-                         C330 242, 295 256, 250 258
-                         C205 256, 170 242, 170 200Z"
-                      fill="url(#frogBelly)" opacity=".96"/>
-
-                <!-- cheeks -->
-                <circle cx="188" cy="206" r="12" fill="#ff7aa2" opacity=".35"/>
-                <circle cx="312" cy="206" r="12" fill="#ff7aa2" opacity=".35"/>
-
-                <!-- eyes -->
-                <g>
-                  <circle cx="200" cy="132" r="34" fill="#E9FFE9"/>
-                  <circle cx="300" cy="132" r="34" fill="#E9FFE9"/>
-                  <circle cx="210" cy="140" r="14" fill="#0b0f0c"/>
-                  <circle cx="290" cy="140" r="14" fill="#0b0f0c"/>
-                  <circle cx="216" cy="134" r="5" fill="#ffffff"/>
-                  <circle cx="296" cy="134" r="5" fill="#ffffff"/>
+                <!-- Eyes -->
+                <g class="blinkEyes">
+                  <circle cx="200" cy="132" r="34" fill="#fff"/>
+                  <circle cx="300" cy="132" r="34" fill="#fff"/>
+                  <circle cx="210" cy="140" r="14"/>
+                  <circle cx="290" cy="140" r="14"/>
                 </g>
 
-                <!-- nose + smile -->
-                <path d="M240 176 C248 170 252 170 260 176" stroke="#1f3b2c" stroke-opacity=".55" stroke-width="4" stroke-linecap="round" fill="none"/>
-                <path d="M212 194 C232 214 268 214 288 194" stroke="#1f3b2c" stroke-opacity=".62" stroke-width="5" stroke-linecap="round" fill="none"/>
+                <!-- Blush -->
+                <circle cx="188" cy="206" r="12" fill="#ff7aa2" class="blushPulse"/>
+                <circle cx="312" cy="206" r="12" fill="#ff7aa2" class="blushPulse"/>
 
-                <!-- tiny flower in hand -->
-                <g transform="translate(342 222) rotate(-8)">
-                  <path d="M0 0 C14 -10, 28 -10, 42 0 C28 10, 14 10, 0 0Z" fill="#ff4f8b" opacity=".92"/>
-                  <path d="M9 -2 C20 -18, 32 -18, 43 -2 C32 12, 20 12, 9 -2Z" fill="#ff85ad" opacity=".75"/>
-                  <circle cx="22" cy="0" r="6" fill="#ffd166"/>
-                  <path d="M22 6 C22 22, 22 34, 22 50" stroke="#2f6f46" stroke-width="6" stroke-linecap="round"/>
-                  <path d="M14 26 C22 26, 30 22, 36 18" stroke="#2f6f46" stroke-width="5" stroke-linecap="round" opacity=".9"/>
-                </g>
+                <!-- Smile -->
+                <path d="M212 194 C232 214 268 214 288 194" stroke="#1f3b2c" stroke-width="5" stroke-linecap="round"/>
               </g>
             </svg>
           </div>
-        </div>
-
-        <!-- subtle caption like an art print -->
-        <div class="caption">
-          <span class="tag">illustration-mode</span>
-          <span class="sep">•</span>
-          <span class="tag">soft watercolor palette</span>
-          <span class="sep">•</span>
-          <span class="tag">cute frog energy</span>
         </div>
       </div>
 
       <header class="copy">
         <h1>
-          <span class="name">Shikhaa</span><span class="dots">…</span>
+          <span class="name">Shikhaa</span>…
           will you be my Valentine?
-          <span class="sparkle" aria-hidden="true">✨💖</span>
+          ✨💖
         </h1>
-        <p class="sub">
-          I tried to design this like an illustration piece you’d actually want to pin on your moodboard.
-        </p>
       </header>
 
-      <section class="buttonZone" id="zone">
-        <button id="yesBtn" class="btn yes" type="button">
-          Yes <span aria-hidden="true">🌷</span>
-        </button>
-        <button id="noBtn" class="btn no" type="button">
-          No <span aria-hidden="true">🙈</span>
-        </button>
-
-        <p class="hint" id="hint">The “No” button is practicing frog hops 🐸</p>
+      <section id="zone" class="buttonZone">
+        <button id="yesBtn" class="btn yes">Yes 🌷</button>
+        <button id="noBtn" class="btn no">No 🙈</button>
+        <p id="hint" class="hint">The “No” button is practicing frog hops 🐸</p>
       </section>
 
-      <!-- RESULT -->
-      <section class="result" id="result" aria-live="polite">
-        <h2>She said YES! <span aria-hidden="true">🌹</span></h2>
+      <!-- Result -->
+      <section id="result" class="result">
+        <h2>She said YES! 🌹</h2>
 
-        <div class="reveal">
-          <div class="revealLeft">
-            <p class="bigline">
-              Okay. That’s officially my favorite notification of all time.
-            </p>
-            <p class="smallline">
-              (Also, you have excellent taste. Obviously.)
-            </p>
-
-            <div class="swatches" aria-label="Palette swatches">
-              <div class="swatch" style="--c:#EAF7EF"></div>
-              <div class="swatch" style="--c:#BDE8C7"></div>
-              <div class="swatch" style="--c:#FF7AA2"></div>
-              <div class="swatch" style="--c:#FF1466"></div>
-              <div class="swatch" style="--c:#2F6F46"></div>
-            </div>
-          </div>
-
-          <div class="revealRight">
-            <!-- “best flower gif” style: loop video (lighter than gif) -->
-            <video class="flowerVid" autoplay muted loop playsinline>
-              <source src="https://media.giphy.com/media/l0Exk8EUzSLsrErEQ/giphy.mp4" type="video/mp4" />
-            </video>
-            <div class="vidNote">a little bloom for a big yes ✨</div>
-          </div>
+        <div class="gifHolder">
+          <img src="https://media.tenor.com/Gf9Yg_BQH34AAAAd/lol-dance.gif" class="centerGif" />
         </div>
 
-        <button class="btn secondary" id="replayBtn" type="button">
-          Replay confetti 🎉
-        </button>
       </section>
-
-      <footer class="footer">
-        <div class="sig">— made with too much effort and zero shame 💘</div>
-      </footer>
 
     </section>
   </main>
