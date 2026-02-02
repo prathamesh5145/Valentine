@@ -1,131 +1,143 @@
-:root{
-  --bgA:#fff1f7;
-  --bgB:#eef9f2;
-  --paper:#ffffffc7;
-  --ink:#1c2b23;
-  --hot:#ff1466;
-  --blush:#ff7aa2;
-}
+*{box-sizing:border-box;}
 
-/* 🔥 GLOBAL SCALE = 50% ZOOM */
 body{
-  transform: scale(0.55);
-  transform-origin: top center;
-  height: 200vh; /* ensures full scroll area */
-  background: linear-gradient(135deg, var(--bgA), var(--bgB));
   margin:0;
-  overflow-x:hidden;
+  overflow:hidden;
+  background:#fff5fa;
+  font-family:"Plus Jakarta Sans";
 }
 
-/* center stage */
+/* === HEARTS BACKGROUND CANVAS === */
+#heartCanvas{
+  position:fixed;
+  inset:0;
+  z-index:1;
+}
+
+/* STAGE */
 .stage{
+  position:relative;
+  z-index:10;
   display:flex;
   justify-content:center;
   padding-top:40px;
 }
 
+/* CARD */
 .card{
-  width: 1400px;
-  background: var(--paper);
-  border-radius: 30px;
-  padding: 40px;
-  box-shadow: 0 20px 60px rgba(0,0,0,.15);
+  background:rgba(255,255,255,0.65);
+  backdrop-filter:blur(25px);
+  border-radius:40px;
+  padding:50px;
+  width:1200px;
+  box-shadow:0 20px 60px rgba(0,0,0,.15);
 }
 
-.frame{ 
-  padding:14px; 
+/* Parallax layers */
+.parallax{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
 }
 
-.frameInner{
-  background:white;
-  border-radius:20px;
-  padding:10px;
-}
-
-.frog{
+.layer{
+  position:absolute;
   width:100%;
-  display:block;
+  height:100%;
+  opacity:.12;
 }
 
-/* ⭐ Anime FX */
-.animeBob{
-  animation: bob 3s ease-in-out infinite;
-}
-@keyframes bob{
-  0%,100%{ transform: translateY(0); }
-  50%{ transform: translateY(-6px); }
+/* Hero Frog */
+.frogWrap{
+  width:520px;
+  margin:0 auto;
+  position:relative;
 }
 
-.blinkEyes circle:nth-child(1),
-.blinkEyes circle:nth-child(2){
-  animation: blink 6s infinite;
+.frog{ width:100%; }
+
+/* Anime FX */
+.frogAnime{
+  animation:breath 3s ease-in-out infinite;
 }
-@keyframes blink{
-  0%,92%,100%{ transform: scaleY(1); }
-  95%{ transform: scaleY(0.1); }
+@keyframes breath{
+  0%,100%{ transform:scale(1); }
+  50%{ transform:scale(1.03); }
 }
 
-.blushPulse{
-  animation: blush 2.5s ease-in-out infinite;
+.blink circle:nth-child(1),
+.blink circle:nth-child(2){
+  transform-origin:center;
+  animation:blinkAnim 6s infinite;
 }
-@keyframes blush{
-  0%,100%{ opacity:.35; }
-  50%{ opacity:.55; }
+@keyframes blinkAnim{
+  0%,92%,100%{ transform:scaleY(1); }
+  95%{ transform:scaleY(0.1); }
 }
 
-.animePulse{
-  animation: pulse 2.2s ease-in-out infinite;
+.blush{
+  animation:blushPulse 3s infinite;
 }
-@keyframes pulse{
-  0%,100%{ transform: scale(1); }
-  50%{ transform: scale(1.06); }
+@keyframes blushPulse{
+  0%,100%{ opacity:.4; }
+  50%{ opacity:.7; }
+}
+
+.heartPulse{
+  animation:pulseHeart 2.2s infinite;
+}
+@keyframes pulseHeart{
+  0%,100%{ transform:scale(1); }
+  50%{ transform:scale(1.08); }
+}
+
+/* Title */
+.title{
+  font-family:"Fraunces";
+  text-align:center;
+  font-size:50px;
+  margin-top:30px;
+  color:#cc0a57;
 }
 
 /* Buttons */
 .buttonZone{
-  margin-top:30px;
   position:relative;
-  height:160px;
+  height:200px;
 }
 
 .btn{
   position:absolute;
-  padding:18px 34px;
-  border:none;
-  border-radius:40px;
-  font-weight:800;
+  padding:20px 40px;
   font-size:24px;
+  font-weight:800;
+  border-radius:40px;
+  border:none;
   cursor:pointer;
+  transition:.2s;
 }
 
 .yes{
-  background: var(--hot);
+  left:25%;
+  background:#ff2c75;
   color:white;
-  left:20%;
 }
 
 .no{
-  background:#fff;
-  border:1px solid #ccc;
-  left:60%;
-}
-
-.hint{
-  text-align:center;
-  margin-top:80px;
-  font-size:20px;
-}
-
-/* result */
-.result{
-  display:none;
-  text-align:center;
-  margin-top:30px;
+  left:55%;
+  background:white;
+  border:2px solid #ccc;
 }
 
 .centerGif{
+  width:400px;
   display:block;
   margin:0 auto;
-  width:420px;
   border-radius:20px;
+  margin-top:20px;
+}
+
+.result{
+  display:none;
+  text-align:center;
 }
