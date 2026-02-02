@@ -2,299 +2,226 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Will you be my Valentine?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Shikhaa… will you be my Valentine?</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <!-- Fonts: elegant + modern -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 
   <!-- Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
-  <style>
-    :root {
-      --pink1: #ffb6d9;
-      --pink2: #ff8ec7;
-      --pink3: #ff69b4;
-      --glass: rgba(255, 255, 255, 0.45);
-      --yes: #ff1f68;
-      --yesHover: #e80056;
-      --no: #ffffffbb;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, #ffe3f3, #ffc3d8, #ff9dc8);
-      font-family: "Poppins", sans-serif;
-      overflow: hidden;
-      padding: 20px;
-      position: relative;
-    }
-
-    /* FLOATING HEARTS */
-    .floating-heart {
-      position: absolute;
-      color: #ff4d88;
-      font-size: 22px;
-      animation: floatUp 8s linear infinite;
-      opacity: 0.6;
-    }
-
-    @keyframes floatUp {
-      from { transform: translateY(100vh) scale(0.9); opacity: 0.3; }
-      to { transform: translateY(-10vh) scale(1.3); opacity: 0; }
-    }
-
-    .card {
-      width: min(720px, 92vw);
-      padding: 30px 26px;
-      background: var(--glass);
-      backdrop-filter: blur(14px) saturate(180%);
-      border-radius: 24px;
-      text-align: center;
-      box-shadow: 0 25px 80px rgba(0,0,0,.18);
-      border: 1px solid rgba(255,255,255,0.35);
-      animation: fadeIn 1.2s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    h1 {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(32px, 5vw, 50px);
-      margin: 14px 0 20px;
-      color: #d40062;
-      text-shadow: 0 2px 10px rgba(255,0,80,0.3);
-    }
-
-    .art {
-      width: min(260px, 80vw);
-      display: block;
-      margin: 0 auto 15px;
-      filter: drop-shadow(0 12px 18px rgba(0,0,0,.18));
-    }
-
-    .button-zone {
-      margin-top: 10px;
-      width: 100%;
-      height: 160px;
-      position: relative;
-    }
-
-    button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      padding: 16px 32px;
-      font-size: 18px;
-      font-weight: 700;
-      border-radius: 40px;
-      border: none;
-      cursor: pointer;
-      transition: 0.25s ease;
-      box-shadow: 0 10px 30px rgba(0,0,0,.16);
-    }
-
-    #yesBtn {
-      left: 20%;
-      background: var(--yes);
-      color: white;
-      animation: heartbeat 1.5s infinite;
-    }
-
-    #yesBtn:hover {
-      background: var(--yesHover);
-      transform: translateY(-50%) scale(1.1);
-    }
-
-    @keyframes heartbeat {
-      0%, 100% { transform: translateY(-50%) scale(1); }
-      50% { transform: translateY(-50%) scale(1.08); }
-    }
-
-    #noBtn {
-      left: 65%;
-      background: var(--no);
-      color: #333;
-    }
-
-    .hint {
-      margin-top: 12px;
-      font-size: 14px;
-      opacity: 0.65;
-      font-style: italic;
-      color: #7a0040;
-    }
-
-    .result {
-      display: none;
-      margin-top: 20px;
-      animation: popIn .45s ease;
-    }
-
-    @keyframes popIn {
-      from { transform: scale(.85); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .result h2 {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(32px, 5vw, 48px);
-      margin: 12px 0;
-      color: #ff1f68;
-      text-shadow: 0 2px 10px rgba(255,0,80,0.35);
-    }
-
-    .flower-gif {
-      width: min(400px, 92vw);
-      border-radius: 12px;
-      margin-top: 10px;
-      box-shadow: 0 15px 45px rgba(0,0,0,.22);
-    }
-
-    /* CONFETTI CANVAS */
-    #confettiCanvas {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 9999;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-  <!-- FLOATING HEARTS -->
-  <script>
-    for (let i = 0; i < 20; i++) {
-      const heart = document.createElement("div");
-      heart.className = "floating-heart";
-      heart.textContent = "❤";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDelay = (Math.random() * 5) + "s";
-      heart.style.fontSize = (20 + Math.random() * 20) + "px";
-      document.body.appendChild(heart);
-    }
-  </script>
+  <!-- full-screen fx canvas -->
+  <canvas id="fxCanvas" aria-hidden="true"></canvas>
 
-  <canvas id="confettiCanvas"></canvas>
+  <main class="stage">
+    <section class="card" role="application" aria-label="Valentine card">
 
-  <main class="card">
-    <svg class="art" viewBox="0 0 320 240">
-      <defs>
-        <linearGradient id="fur" x1="0" x2="1">
-          <stop offset="0" stop-color="#ffdab5"/>
-          <stop offset="1" stop-color="#f4b98e"/>
-        </linearGradient>
-        <linearGradient id="heart" x1="0" x2="1">
-          <stop offset="0" stop-color="#ff4d88"/>
-          <stop offset="1" stop-color="#ff1f68"/>
-        </linearGradient>
-      </defs>
+      <!-- top ribbon -->
+      <div class="topline">
+        <div class="stamp">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+        <div class="note">handmade • just for you</div>
+      </div>
 
-      <path d="M250 50 C250 33 270 25 282 38  C294 25 314 33 314 50 C314 78 282 92 282 106 C282 92 250 78 250 50Z" fill="url(#heart)"/>
+      <!-- HERO: illustration frame -->
+      <div class="hero">
+        <div class="frame" aria-hidden="true">
+          <div class="frameInner">
+            <!-- Cute frog illustration (original SVG) -->
+            <svg class="frog" viewBox="0 0 520 320" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <!-- watercolor-ish gradients -->
+                <radialGradient id="bgWash" cx="35%" cy="25%" r="80%">
+                  <stop offset="0%" stop-color="#ffffff" stop-opacity=".9"/>
+                  <stop offset="50%" stop-color="#f3ffe9" stop-opacity=".9"/>
+                  <stop offset="100%" stop-color="#e7f7ee" stop-opacity=".95"/>
+                </radialGradient>
 
-      <path d="M90 120 C90 70 140 40 190 60 C240 40 290 70 290 120 C290 180 240 210 190 210 C140 210 90 180 90 120Z"
-            fill="url(#fur)"/>
+                <linearGradient id="frogBody" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#A8E6B3"/>
+                  <stop offset="50%" stop-color="#7BD68E"/>
+                  <stop offset="100%" stop-color="#58C77A"/>
+                </linearGradient>
 
-      <circle cx="160" cy="130" r="8"/>
-      <circle cx="220" cy="130" r="8"/>
+                <linearGradient id="frogBelly" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#FFF4D6" stop-opacity=".95"/>
+                  <stop offset="100%" stop-color="#F7E7B3" stop-opacity=".9"/>
+                </linearGradient>
 
-      <path d="M190 144 C186 144 182 148 182 152 C182 160 190 164 190 170 C190 164 198 160 198 152 C198 148 194 144 190 144Z"
-            fill="#ff8bb5"/>
-    </svg>
+                <linearGradient id="heartPaint" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#ff4f8b"/>
+                  <stop offset="100%" stop-color="#ff1466"/>
+                </linearGradient>
 
-    <h1>Shikhaa… will you be my Valentine? 💖</h1>
+                <!-- subtle grain filter -->
+                <filter id="grain" x="-20%" y="-20%" width="140%" height="140%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch" />
+                  <feColorMatrix type="matrix"
+                    values="1 0 0 0 0
+                            0 1 0 0 0
+                            0 0 1 0 0
+                            0 0 0 .08 0"/>
+                </filter>
 
-    <section class="button-zone" id="zone">
-      <button id="yesBtn">Yes</button>
-      <button id="noBtn">No</button>
-    </section>
+                <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#102018" flood-opacity=".22"/>
+                </filter>
+              </defs>
 
-    <div class="hint" id="hint">Try catching the “No” button 😉</div>
+              <!-- background wash -->
+              <rect x="0" y="0" width="520" height="320" rx="26" fill="url(#bgWash)"/>
+              <rect x="0" y="0" width="520" height="320" rx="26" filter="url(#grain)" opacity=".55"/>
 
-    <section class="result" id="result">
-      <h2>She said YES! 🌹</h2>
-      <img class="flower-gif" src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2p3M2ZyN3h3OHl3cTZ3cG56Ym5memw3ZWlmdWgwZnphc2c4YmdsYSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/g9582DNuQppxC/giphy.gif" />
+              <!-- doodle lines -->
+              <path d="M40 64 C120 20, 240 40, 300 20 C360 0, 420 26, 480 10"
+                    fill="none" stroke="#2f5d3d" stroke-opacity=".18" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 10"/>
+              <path d="M70 260 C140 290, 220 270, 310 295 C390 318, 450 300, 490 312"
+                    fill="none" stroke="#b83366" stroke-opacity=".14" stroke-width="3" stroke-linecap="round" stroke-dasharray="3 12"/>
+
+              <!-- heart behind frog -->
+              <path d="M402 76
+                       C402 54 428 44 444 60
+                       C460 44 486 54 486 76
+                       C486 108 444 122 444 144
+                       C444 122 402 108 402 76Z"
+                    fill="url(#heartPaint)" opacity=".95" filter="url(#softShadow)"/>
+
+              <!-- frog shadow -->
+              <ellipse cx="250" cy="248" rx="150" ry="34" fill="#0d1b12" opacity=".12"/>
+
+              <!-- frog body -->
+              <g filter="url(#softShadow)">
+                <path d="M120 190
+                         C120 120, 170 84, 250 94
+                         C330 84, 380 120, 380 190
+                         C380 250, 330 274, 250 274
+                         C170 274, 120 250, 120 190Z"
+                      fill="url(#frogBody)"/>
+
+                <!-- belly -->
+                <path d="M170 200
+                         C170 150, 205 132, 250 138
+                         C295 132, 330 150, 330 200
+                         C330 242, 295 256, 250 258
+                         C205 256, 170 242, 170 200Z"
+                      fill="url(#frogBelly)" opacity=".96"/>
+
+                <!-- cheeks -->
+                <circle cx="188" cy="206" r="12" fill="#ff7aa2" opacity=".35"/>
+                <circle cx="312" cy="206" r="12" fill="#ff7aa2" opacity=".35"/>
+
+                <!-- eyes -->
+                <g>
+                  <circle cx="200" cy="132" r="34" fill="#E9FFE9"/>
+                  <circle cx="300" cy="132" r="34" fill="#E9FFE9"/>
+                  <circle cx="210" cy="140" r="14" fill="#0b0f0c"/>
+                  <circle cx="290" cy="140" r="14" fill="#0b0f0c"/>
+                  <circle cx="216" cy="134" r="5" fill="#ffffff"/>
+                  <circle cx="296" cy="134" r="5" fill="#ffffff"/>
+                </g>
+
+                <!-- nose + smile -->
+                <path d="M240 176 C248 170 252 170 260 176" stroke="#1f3b2c" stroke-opacity=".55" stroke-width="4" stroke-linecap="round" fill="none"/>
+                <path d="M212 194 C232 214 268 214 288 194" stroke="#1f3b2c" stroke-opacity=".62" stroke-width="5" stroke-linecap="round" fill="none"/>
+
+                <!-- tiny flower in hand -->
+                <g transform="translate(342 222) rotate(-8)">
+                  <path d="M0 0 C14 -10, 28 -10, 42 0 C28 10, 14 10, 0 0Z" fill="#ff4f8b" opacity=".92"/>
+                  <path d="M9 -2 C20 -18, 32 -18, 43 -2 C32 12, 20 12, 9 -2Z" fill="#ff85ad" opacity=".75"/>
+                  <circle cx="22" cy="0" r="6" fill="#ffd166"/>
+                  <path d="M22 6 C22 22, 22 34, 22 50" stroke="#2f6f46" stroke-width="6" stroke-linecap="round"/>
+                  <path d="M14 26 C22 26, 30 22, 36 18" stroke="#2f6f46" stroke-width="5" stroke-linecap="round" opacity=".9"/>
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <!-- subtle caption like an art print -->
+        <div class="caption">
+          <span class="tag">illustration-mode</span>
+          <span class="sep">•</span>
+          <span class="tag">soft watercolor palette</span>
+          <span class="sep">•</span>
+          <span class="tag">cute frog energy</span>
+        </div>
+      </div>
+
+      <header class="copy">
+        <h1>
+          <span class="name">Shikhaa</span><span class="dots">…</span>
+          will you be my Valentine?
+          <span class="sparkle" aria-hidden="true">✨💖</span>
+        </h1>
+        <p class="sub">
+          I tried to design this like an illustration piece you’d actually want to pin on your moodboard.
+        </p>
+      </header>
+
+      <section class="buttonZone" id="zone">
+        <button id="yesBtn" class="btn yes" type="button">
+          Yes <span aria-hidden="true">🌷</span>
+        </button>
+        <button id="noBtn" class="btn no" type="button">
+          No <span aria-hidden="true">🙈</span>
+        </button>
+
+        <p class="hint" id="hint">The “No” button is practicing frog hops 🐸</p>
+      </section>
+
+      <!-- RESULT -->
+      <section class="result" id="result" aria-live="polite">
+        <h2>She said YES! <span aria-hidden="true">🌹</span></h2>
+
+        <div class="reveal">
+          <div class="revealLeft">
+            <p class="bigline">
+              Okay. That’s officially my favorite notification of all time.
+            </p>
+            <p class="smallline">
+              (Also, you have excellent taste. Obviously.)
+            </p>
+
+            <div class="swatches" aria-label="Palette swatches">
+              <div class="swatch" style="--c:#EAF7EF"></div>
+              <div class="swatch" style="--c:#BDE8C7"></div>
+              <div class="swatch" style="--c:#FF7AA2"></div>
+              <div class="swatch" style="--c:#FF1466"></div>
+              <div class="swatch" style="--c:#2F6F46"></div>
+            </div>
+          </div>
+
+          <div class="revealRight">
+            <!-- “best flower gif” style: loop video (lighter than gif) -->
+            <video class="flowerVid" autoplay muted loop playsinline>
+              <source src="https://media.giphy.com/media/l0Exk8EUzSLsrErEQ/giphy.mp4" type="video/mp4" />
+            </video>
+            <div class="vidNote">a little bloom for a big yes ✨</div>
+          </div>
+        </div>
+
+        <button class="btn secondary" id="replayBtn" type="button">
+          Replay confetti 🎉
+        </button>
+      </section>
+
+      <footer class="footer">
+        <div class="sig">— made with too much effort and zero shame 💘</div>
+      </footer>
+
     </section>
   </main>
 
-  <script>
-    const zone = document.getElementById("zone");
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const result = document.getElementById("result");
-    const hint = document.getElementById("hint");
-
-    const confettiCanvas = document.getElementById("confettiCanvas");
-    const confettiInstance = confetti.create(confettiCanvas, { resize: true });
-
-    function fullScreenConfetti() {
-      const end = Date.now() + 1500;
-      (function frame() {
-        confettiInstance({ particleCount: 12, spread: 80, startVelocity: 45, origin: { x: Math.random(), y: Math.random() * 0.3 } });
-        if (Date.now() < end) requestAnimationFrame(frame);
-      })();
-
-      setTimeout(() => {
-        confettiInstance({ particleCount: 280, spread: 140, startVelocity: 60, origin: { x: 0.5, y: 0.55 } });
-      }, 300);
-    }
-
-    let yesScale = 1;
-
-    function growYes() {
-      yesScale = Math.min(2.4, yesScale + 0.12);
-      yesBtn.style.transform = `translateY(-50%) scale(${yesScale})`;
-    }
-
-    function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
-
-    function moveNo(px, py) {
-      const z = zone.getBoundingClientRect();
-      const b = noBtn.getBoundingClientRect();
-
-      let dx = (b.left + b.width/2) - px;
-      let dy = (b.top + b.height/2) - py;
-      let mag = Math.hypot(dx, dy) || 1;
-      dx /= mag; dy /= mag;
-
-      let newLeft = (b.left - z.left) + dx * 150;
-      let newTop  = (b.top - z.top) + dy * 150;
-
-      newLeft = clamp(newLeft, 0, z.width - b.width);
-      newTop  = clamp(newTop, 0, z.height - b.height);
-
-      noBtn.style.left = newLeft + "px";
-      noBtn.style.top = newTop + "px";
-      noBtn.style.transform = "none";
-
-      growYes();
-    }
-
-    zone.addEventListener("pointermove", e => {
-      const b = noBtn.getBoundingClientRect();
-      const d = Math.hypot((b.left + b.width/2) - e.clientX, (b.top + b.height/2) - e.clientY);
-      if (d < 140) moveNo(e.clientX, e.clientY);
-    });
-
-    noBtn.addEventListener("click", e => e.preventDefault());
-
-    yesBtn.addEventListener("click", () => {
-      zone.style.display = "none";
-      hint.style.display = "none";
-      result.style.display = "block";
-      fullScreenConfetti();
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
