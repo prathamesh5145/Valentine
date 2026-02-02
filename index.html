@@ -2,101 +2,91 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Shikhaa… will you be my Valentine?</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-
-  <!-- Confetti -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-  <!-- FX Canvas -->
-  <canvas id="fxCanvas" aria-hidden="true"></canvas>
+
+  <!-- HEART PARTICLE ENGINE -->
+  <canvas id="heartCanvas"></canvas>
 
   <main class="stage">
     <section class="card">
 
       <div class="hero">
-        <div class="frame">
-          <div class="frameInner">
-            <!-- Anime Frog -->
-            <svg class="frog animeFrog" viewBox="0 0 520 320">
-              <defs>
-                <radialGradient id="bgWash" cx="35%" cy="25%" r="80%">
-                  <stop offset="0%" stop-color="#ffffff"/>
-                  <stop offset="50%" stop-color="#f3ffe9"/>
-                  <stop offset="100%" stop-color="#e7f7ee"/>
-                </radialGradient>
-                <linearGradient id="frogBody" x1="0" x2="1">
-                  <stop offset="0%" stop-color="#A8E6B3"/>
-                  <stop offset="50%" stop-color="#7BD68E"/>
-                  <stop offset="100%" stop-color="#58C77A"/>
-                </linearGradient>
-                <linearGradient id="heartPaint" x1="0" x2="1">
-                  <stop offset="0%" stop-color="#ff4f8b"/>
-                  <stop offset="100%" stop-color="#ff1466"/>
-                </linearGradient>
-              </defs>
+        <div class="parallax">
+          <div class="layer l1"></div>
+          <div class="layer l2"></div>
+          <div class="layer l3"></div>
+        </div>
 
-              <rect width="520" height="320" rx="26" fill="url(#bgWash)"/>
+        <!-- Anime Frog -->
+        <div class="frogWrap">
+          <svg class="frog" viewBox="0 0 520 320">
+            <defs>
+              <radialGradient id="bgWash" cx="35%" cy="25%" r="80%">
+                <stop offset="0%" stop-color="#ffffff"/>
+                <stop offset="50%" stop-color="#f3ffe9"/>
+                <stop offset="100%" stop-color="#e7f7ee"/>
+              </stop>
+            </defs>
 
-              <!-- Heart -->
+            <rect width="520" height="320" rx="26" fill="url(#bgWash)" />
+
+            <!-- Heart -->
+            <g class="heartPulse">
               <path d="M402 76 C402 54 428 44 444 60 C460 44 486 54 486 76 C486 108 444 122 444 144 C444 122 402 108 402 76Z"
-                fill="url(#heartPaint)" class="animePulse"/>
+                fill="#ff3a78" />
+            </g>
 
-              <!-- Frog Body -->
-              <g>
-                <ellipse cx="250" cy="248" rx="150" ry="34" fill="#0d1b12" opacity=".12"/>
-                <path d="M120 190 C120 120, 170 84, 250 94 C330 84, 380 120, 380 190 C380 250, 330 274, 250 274 C170 274, 120 250, 120 190Z"
-                      fill="url(#frogBody)" class="animeBob"/>
+            <!-- Frog Body -->
+            <g class="frogAnime">
+              <ellipse cx="250" cy="248" rx="150" ry="34" fill="#000" opacity=".12"/>
 
-                <!-- Eyes -->
-                <g class="blinkEyes">
-                  <circle cx="200" cy="132" r="34" fill="#fff"/>
-                  <circle cx="300" cy="132" r="34" fill="#fff"/>
-                  <circle cx="210" cy="140" r="14"/>
-                  <circle cx="290" cy="140" r="14"/>
-                </g>
+              <path d="M120 190 C120 120, 170 84, 250 94 C330 84, 380 120, 380 190 
+                       C380 250, 330 274, 250 274 C170 274, 120 250, 120 190Z"
+                    fill="#7BD68E"/>
 
-                <!-- Blush -->
-                <circle cx="188" cy="206" r="12" fill="#ff7aa2" class="blushPulse"/>
-                <circle cx="312" cy="206" r="12" fill="#ff7aa2" class="blushPulse"/>
-
-                <!-- Smile -->
-                <path d="M212 194 C232 214 268 214 288 194" stroke="#1f3b2c" stroke-width="5" stroke-linecap="round"/>
+              <!-- Eyes -->
+              <g class="eyes blink">
+                <circle cx="200" cy="132" r="34" fill="#fff"/>
+                <circle cx="300" cy="132" r="34" fill="#fff"/>
+                <circle cx="210" cy="140" r="14" />
+                <circle cx="290" cy="140" r="14" />
               </g>
-            </svg>
-          </div>
+
+              <!-- Blush -->
+              <circle cx="188" cy="206" r="12" fill="#ff7aa2" class="blush"/>
+              <circle cx="312" cy="206" r="12" fill="#ff7aa2" class="blush"/>
+
+              <!-- Smile -->
+              <path d="M212 194 C232 214 268 214 288 194" stroke="#2b422f" stroke-width="5" stroke-linecap="round"/>
+            </g>
+
+          </svg>
         </div>
       </div>
 
-      <header class="copy">
-        <h1>
-          <span class="name">Shikhaa</span>…
-          will you be my Valentine?
-          ✨💖
-        </h1>
-      </header>
+      <h1 class="title">
+        <span class="name">Shikhaa</span>…  
+        will you be my Valentine? 💖✨
+      </h1>
 
-      <section id="zone" class="buttonZone">
+      <!-- Buttons -->
+      <section class="buttonZone" id="zone">
         <button id="yesBtn" class="btn yes">Yes 🌷</button>
         <button id="noBtn" class="btn no">No 🙈</button>
-        <p id="hint" class="hint">The “No” button is practicing frog hops 🐸</p>
+        <p id="hint" class="hint">Catch me if you can 🐸</p>
       </section>
 
-      <!-- Result -->
       <section id="result" class="result">
         <h2>She said YES! 🌹</h2>
-
-        <div class="gifHolder">
-          <img src="https://media.tenor.com/Gf9Yg_BQH34AAAAd/lol-dance.gif" class="centerGif" />
-        </div>
-
+        <img src="https://media.tenor.com/Gf9Yg_BQH34AAAAd/lol-dance.gif" class="centerGif" />
       </section>
 
     </section>
