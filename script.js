@@ -1,138 +1,131 @@
-const zone = document.getElementById("zone");
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const result = document.getElementById("result");
-const hint = document.getElementById("hint");
-const replayBtn = document.getElementById("replayBtn");
-
-const fxCanvas = document.getElementById("fxCanvas");
-const confettiInstance = confetti.create(fxCanvas, { resize: true, useWorker: true });
-
-/* ---------- Ambient floating particles (subtle, designer-y) ---------- */
-const ctx = fxCanvas.getContext("2d");
-let W = 0, H = 0, DPR = 1;
-let dots = [];
-
-function resize() {
-  DPR = Math.max(1, window.devicePixelRatio || 1);
-  W = fxCanvas.width = Math.floor(window.innerWidth * DPR);
-  H = fxCanvas.height = Math.floor(window.innerHeight * DPR);
-  fxCanvas.style.width = "100vw";
-  fxCanvas.style.height = "100vh";
-
-  dots = Array.from({ length: Math.min(80, Math.floor((window.innerWidth * window.innerHeight) / 18000)) }, () => ({
-    x: Math.random() * W,
-    y: Math.random() * H,
-    r: (Math.random() * 2.2 + 0.8) * DPR,
-    a: Math.random() * 0.22 + 0.05,
-    vx: (Math.random() * 0.22 + 0.05) * DPR,
-    vy: (Math.random() * 0.10 + 0.02) * DPR,
-  }));
-}
-resize();
-window.addEventListener("resize", resize);
-
-function tick() {
-  ctx.clearRect(0, 0, W, H);
-  for (const d of dots) {
-    d.x += d.vx;
-    d.y += d.vy;
-
-    if (d.x > W + 20) d.x = -20;
-    if (d.y > H + 20) d.y = -20;
-
-    ctx.beginPath();
-    ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(255, 20, 102, ${d.a})`;
-    ctx.fill();
-  }
-  requestAnimationFrame(tick);
-}
-tick();
-
-/* ---------- Confetti "art-directed" ---------- */
-function fullScreenConfetti() {
-  const end = Date.now() + 1600;
-
-  (function frame() {
-    confettiInstance({
-      particleCount: 12,
-      spread: 90,
-      startVelocity: 42,
-      ticks: 170,
-      origin: { x: Math.random(), y: Math.random() * 0.35 }
-    });
-
-    if (Date.now() < end) requestAnimationFrame(frame);
-  })();
-
-  setTimeout(() => {
-    confettiInstance({
-      particleCount: 260,
-      spread: 140,
-      startVelocity: 62,
-      ticks: 210,
-      origin: { x: 0.5, y: 0.6 }
-    });
-  }, 280);
+:root{
+  --bgA:#fff1f7;
+  --bgB:#eef9f2;
+  --paper:#ffffffc7;
+  --ink:#1c2b23;
+  --hot:#ff1466;
+  --blush:#ff7aa2;
 }
 
-/* ---------- YES grows (but not ridiculous) ---------- */
-let yesScale = 1;
-function growYes() {
-  yesScale = Math.min(2.05, yesScale + 0.10);
-  yesBtn.style.transform = `translateY(-50%) scale(${yesScale})`;
+/* 🔥 GLOBAL SCALE = 50% ZOOM */
+body{
+  transform: scale(0.55);
+  transform-origin: top center;
+  height: 200vh; /* ensures full scroll area */
+  background: linear-gradient(135deg, var(--bgA), var(--bgB));
+  margin:0;
+  overflow-x:hidden;
 }
 
-/* ---------- NO "frog hops away" ---------- */
-function clamp(n, min, max) {
-  return Math.max(min, Math.min(max, n));
+/* center stage */
+.stage{
+  display:flex;
+  justify-content:center;
+  padding-top:40px;
 }
 
-function hopNo(px, py) {
-  const z = zone.getBoundingClientRect();
-  const b = noBtn.getBoundingClientRect();
-
-  let dx = (b.left + b.width / 2) - px;
-  let dy = (b.top + b.height / 2) - py;
-
-  let mag = Math.hypot(dx, dy) || 1;
-  dx /= mag;
-  dy /= mag;
-
-  // hop distance (a bit chaotic but controlled)
-  const hop = 160;
-  let newLeft = (b.left - z.left) + dx * hop;
-  let newTop  = (b.top - z.top) + dy * hop;
-
-  newLeft = clamp(newLeft, 0, z.width - b.width);
-  newTop  = clamp(newTop, 0, z.height - b.height);
-
-  noBtn.style.left = newLeft + "px";
-  noBtn.style.top = newTop + "px";
-  noBtn.style.transform = "none";
-
-  growYes();
+.card{
+  width: 1400px;
+  background: var(--paper);
+  border-radius: 30px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.15);
 }
 
-zone.addEventListener("pointermove", (e) => {
-  const b = noBtn.getBoundingClientRect();
-  const d = Math.hypot(
-    (b.left + b.width / 2) - e.clientX,
-    (b.top + b.height / 2) - e.clientY
-  );
-  if (d < 150) hopNo(e.clientX, e.clientY);
-});
+.frame{ 
+  padding:14px; 
+}
 
-noBtn.addEventListener("click", (e) => e.preventDefault());
+.frameInner{
+  background:white;
+  border-radius:20px;
+  padding:10px;
+}
 
-/* ---------- YES click ---------- */
-yesBtn.addEventListener("click", () => {
-  zone.style.display = "none";
-  hint.style.display = "none";
-  result.style.display = "block";
-  fullScreenConfetti();
-});
+.frog{
+  width:100%;
+  display:block;
+}
 
-/* ---------- Replay ---------- */
-replayBtn?.addEventListener("click", () => fullScreenConfetti());
+/* ⭐ Anime FX */
+.animeBob{
+  animation: bob 3s ease-in-out infinite;
+}
+@keyframes bob{
+  0%,100%{ transform: translateY(0); }
+  50%{ transform: translateY(-6px); }
+}
+
+.blinkEyes circle:nth-child(1),
+.blinkEyes circle:nth-child(2){
+  animation: blink 6s infinite;
+}
+@keyframes blink{
+  0%,92%,100%{ transform: scaleY(1); }
+  95%{ transform: scaleY(0.1); }
+}
+
+.blushPulse{
+  animation: blush 2.5s ease-in-out infinite;
+}
+@keyframes blush{
+  0%,100%{ opacity:.35; }
+  50%{ opacity:.55; }
+}
+
+.animePulse{
+  animation: pulse 2.2s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{ transform: scale(1); }
+  50%{ transform: scale(1.06); }
+}
+
+/* Buttons */
+.buttonZone{
+  margin-top:30px;
+  position:relative;
+  height:160px;
+}
+
+.btn{
+  position:absolute;
+  padding:18px 34px;
+  border:none;
+  border-radius:40px;
+  font-weight:800;
+  font-size:24px;
+  cursor:pointer;
+}
+
+.yes{
+  background: var(--hot);
+  color:white;
+  left:20%;
+}
+
+.no{
+  background:#fff;
+  border:1px solid #ccc;
+  left:60%;
+}
+
+.hint{
+  text-align:center;
+  margin-top:80px;
+  font-size:20px;
+}
+
+/* result */
+.result{
+  display:none;
+  text-align:center;
+  margin-top:30px;
+}
+
+.centerGif{
+  display:block;
+  margin:0 auto;
+  width:420px;
+  border-radius:20px;
+}
